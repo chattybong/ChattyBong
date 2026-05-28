@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChattyBong — AI Support for Every Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #e8f5e9;
+    --ink2:   #a5d6a7;
+    --ink3:   #66bb6a;
+    --bg:     #050f07;
+    --bg2:    #081209;
+    --bg3:    #0b1a0d;
+    --white:  #0f1f11;
+    --accent: #00e676;
+    --accent2:#69f0ae;
+    --accent3:#b9f6ca;
+    --glow:   rgba(0,230,118,0.10);
+    --card-bg:#0f1f11;
+    --border: rgba(0,230,118,0.12);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 5vw;
+    background: rgba(5,15,7,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.5rem;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+  }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--ink2);
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: #050f07;
+    border: none; padding: 0.65rem 1.5rem;
+    border-radius: 100px; font-size: 0.88rem; font-weight: 700;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-cta:hover { background: var(--accent2); transform: scale(1.03); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 9rem 5vw 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .blob1 { width: 600px; height: 600px; background: rgba(0,230,118,0.07); top: -100px; left: -200px; }
+  .blob2 { width: 500px; height: 500px; background: rgba(105,240,174,0.06); bottom: -50px; right: -150px; }
+  .blob3 { width: 300px; height: 300px; background: rgba(0,230,118,0.05); top: 30%; left: 50%; transform: translateX(-50%); }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.25);
+    padding: 0.45rem 1rem; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 500; color: var(--accent2);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .badge-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 1.0; letter-spacing: -0.04em;
+    color: var(--ink); margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); position: relative; }
+  .hero h1 em::after {
+    content: '';
+    position: absolute; left: 0; bottom: -4px; right: 0; height: 4px;
+    background: var(--accent); border-radius: 4px;
+    opacity: 0.4;
+  }
+
+  .hero-sub {
+    max-width: 560px; font-size: 1.15rem;
+    color: var(--ink2); line-height: 1.7;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.7s ease 0.2s both;
+    font-weight: 300;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--accent); color: #050f07;
+    border: none; padding: 0.9rem 2.2rem;
+    border-radius: 100px; font-size: 1rem; font-weight: 700;
+    cursor: pointer; text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 4px 24px rgba(0,230,118,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,230,118,0.45); }
+  .btn-ghost {
+    background: transparent; color: var(--ink);
+    border: 1.5px solid rgba(0,230,118,0.25); padding: 0.9rem 2.2rem;
+    border-radius: 100px; font-size: 1rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-ghost:hover { border-color: var(--accent); background: var(--glow); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: #030a04;
+    border-top: 1px solid rgba(0,230,118,0.1);
+    border-bottom: 1px solid rgba(0,230,118,0.1);
+    padding: 2.5rem 5vw;
+    display: flex; justify-content: center; gap: 5vw; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--accent); letter-spacing: -0.04em;
+  }
+  .stat-label { font-size: 0.85rem; color: rgba(165,214,167,0.5); margin-top: 4px; }
+
+  /* SECTIONS */
+  section { padding: 6rem 5vw; }
+  .section-tag {
+    display: inline-block;
+    background: rgba(0,230,118,0.1); color: var(--accent);
+    border: 1px solid rgba(0,230,118,0.25);
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.35rem 0.9rem;
+    border-radius: 100px; margin-bottom: 1.2rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.1; color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: var(--ink2);
+    max-width: 540px; line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* FEATURES */
+  .features { background: var(--bg2); }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 4rem;
+  }
+  .feature-card {
+    background: var(--bg3);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid rgba(0,230,118,0.1);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,230,118,0.08); border-color: rgba(0,230,118,0.3); }
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+  }
+  .fi-purple { background: rgba(0,230,118,0.1); }
+  .fi-teal   { background: rgba(105,240,174,0.1); }
+  .fi-orange { background: rgba(0,230,118,0.08); }
+  .fi-blue   { background: rgba(105,240,174,0.08); }
+  .fi-pink   { background: rgba(0,230,118,0.12); }
+  .fi-amber  { background: rgba(185,246,202,0.08); }
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1.15rem;
+    margin-bottom: 0.6rem; color: var(--ink);
+  }
+  .feature-card p { font-size: 0.9rem; color: var(--ink2); line-height: 1.65; font-weight: 300; }
+
+  /* CHAT DEMO */
+  .demo-section {
+    background: #030a04;
+    color: var(--ink);
+  }
+  .demo-section .section-title { color: var(--ink); }
+  .demo-section .section-sub { color: var(--ink2); }
+  .demo-section .section-tag { background: rgba(0,230,118,0.1); color: var(--accent); border-color: rgba(0,230,118,0.25); }
+
+  .demos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 1.5rem; margin-top: 4rem;
+  }
+
+  .chat-window {
+    background: #071009;
+    border-radius: var(--radius);
+    border: 1px solid rgba(0,230,118,0.15);
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .chat-window:hover { transform: translateY(-3px); border-color: rgba(0,230,118,0.35); }
+
+  .chat-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(0,230,118,0.1);
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0,230,118,0.04);
+  }
+  .chat-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .chat-name { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+  .chat-status { font-size: 0.72rem; color: var(--accent); display: flex; align-items: center; gap: 4px; }
+  .chat-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+  .chat-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.8rem; min-height: 260px; }
+
+  .msg {
+    max-width: 85%; padding: 0.7rem 1rem;
+    border-radius: 16px; font-size: 0.83rem; line-height: 1.55;
+    animation: msgIn 0.3s ease both;
+  }
+  .msg-bot {
+    background: rgba(0,230,118,0.07);
+    color: var(--ink2);
+    border: 1px solid rgba(0,230,118,0.12);
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+  }
+  .msg-user {
+    background: var(--accent);
+    color: #050f07;
+    font-weight: 500;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+  }
+  .msg-accent2 {
+    background: rgba(105,240,174,0.08);
+    color: var(--accent2);
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    border: 1px solid rgba(105,240,174,0.2);
+  }
+
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(0,230,118,0.4); padding: 0.3rem 0; margin-top: 0.3rem;
+    align-self: flex-start;
+  }
+  .chat-label.right { align-self: flex-end; }
+
+  .typing {
+    display: flex; gap: 4px; align-items: center;
+    align-self: flex-start;
+    padding: 0.7rem 1rem;
+    background: rgba(0,230,118,0.07);
+    border: 1px solid rgba(0,230,118,0.12);
+    border-radius: 16px; border-bottom-left-radius: 4px;
+  }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(0,230,118,0.4);
+    animation: bounce 1.2s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .tag-pill {
+    display: inline-block; padding: 0.25rem 0.65rem;
+    border-radius: 100px; font-size: 0.72rem; font-weight: 600;
+    margin: 0.15rem;
+  }
+  .pill-green { background: rgba(0,230,118,0.15); color: var(--accent); }
+  .pill-yellow { background: rgba(185,246,202,0.1); color: var(--accent3); }
+  .pill-red { background: rgba(105,240,174,0.08); color: var(--accent2); }
+
+  .reminder-chip {
+    background: rgba(0,230,118,0.08);
+    border: 1px solid rgba(0,230,118,0.2);
+    border-radius: 10px; padding: 0.6rem 0.85rem;
+    font-size: 0.78rem; color: var(--accent2);
+    align-self: flex-start; max-width: 90%;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .reminder-chip::before { content: '🔔'; font-size: 1rem; }
+
+  /* HOW IT WORKS */
+  .how { background: var(--bg2); }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0; margin-top: 4rem;
+    position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute; top: 36px; left: 10%; right: 10%; height: 2px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 20px, transparent 20px, transparent 35px);
+    opacity: 0.15;
+  }
+  .step {
+    text-align: center; padding: 0 1.5rem;
+    position: relative;
+  }
+  .step-num {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--bg2); border: 2px solid rgba(0,230,118,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 1.5rem; color: var(--accent);
+    margin: 0 auto 1.5rem;
+    position: relative; z-index: 1;
+    box-shadow: 0 0 20px rgba(0,230,118,0.1);
+  }
+  .step h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    margin-bottom: 0.5rem; color: var(--ink);
+  }
+  .step p { font-size: 0.87rem; color: var(--ink2); line-height: 1.6; }
+
+  /* USE CASES */
+  .usecases { background: var(--bg); }
+  .uc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem; margin-top: 3.5rem;
+  }
+  .uc-card {
+    background: var(--bg3); border-radius: var(--radius);
+    padding: 1.75rem;
+    border: 1px solid rgba(0,230,118,0.1);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .uc-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,230,118,0.07); border-color: rgba(0,230,118,0.3); }
+  .uc-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .uc-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1.05rem;
+    margin-bottom: 0.5rem; color: var(--ink);
+  }
+  .uc-card p { font-size: 0.87rem; color: var(--ink2); line-height: 1.6; font-weight: 300; }
+
+  /* PRICING */
+  .pricing { background: var(--bg2); }
+  .pricing-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start;
+    margin-top: 4rem;
+  }
+  @media (max-width: 860px) {
+    .pricing-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+  .pricing-left h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    color: var(--ink); margin-bottom: 1rem;
+  }
+  .pricing-left p { font-size: 0.93rem; color: var(--ink2); line-height: 1.7; font-weight: 300; margin-bottom: 2rem; }
+  .pricing-perks { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+  .pricing-perks li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 0.9rem; color: var(--ink2);
+  }
+  .perk-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(0,230,118,0.1); display: flex; align-items: center;
+    justify-content: center; font-size: 0.85rem; flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* FORM */
+  .quote-form {
+    background: #071009;
+    border: 1px solid rgba(0,230,118,0.15);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .quote-form::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 260px; height: 260px; border-radius: 50%;
+    background: rgba(0,230,118,0.06); filter: blur(60px);
+    pointer-events: none;
+  }
+  .quote-form::after {
+    content: '';
+    position: absolute; bottom: -60px; left: -60px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(105,240,174,0.05); filter: blur(50px);
+    pointer-events: none;
+  }
+  .quote-form h3 {
+    font-family: 'Syne', sans-serif; color: var(--ink);
+    font-size: 1.4rem; font-weight: 800;
+    margin-bottom: 0.4rem; position: relative; z-index: 1;
+  }
+  .quote-form .form-sub {
+    font-size: 0.82rem; color: rgba(165,214,167,0.4);
+    margin-bottom: 1.8rem; position: relative; z-index: 1;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; position: relative; z-index: 1; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; position: relative; z-index: 1; margin-bottom: 1rem; }
+  .form-group label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: rgba(0,230,118,0.5);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(0,230,118,0.04);
+    border: 1px solid rgba(0,230,118,0.15);
+    border-radius: 10px; padding: 0.75rem 1rem;
+    color: var(--ink); font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none; width: 100%;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(165,214,167,0.2); }
+  .form-group select option { background: #071009; color: var(--ink); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: rgba(0,230,118,0.5);
+    background: rgba(0,230,118,0.06);
+  }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .btn-submit {
+    width: 100%; padding: 0.95rem;
+    background: var(--accent); color: #050f07;
+    border: none; border-radius: 12px;
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.35); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .form-success {
+    display: none; text-align: center;
+    padding: 2rem 1rem; position: relative; z-index: 1;
+  }
+  .form-success .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .form-success h4 { font-family: 'Syne', sans-serif; color: var(--accent); font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .form-success p { color: var(--ink2); font-size: 0.88rem; line-height: 1.6; }
+  .pricing-email .icon { font-size: 1.2rem; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--bg); }
+  .t-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 3.5rem;
+  }
+  .t-card {
+    background: var(--bg3); border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid rgba(0,230,118,0.1);
+    transition: border-color 0.2s;
+  }
+  .t-card:hover { border-color: rgba(0,230,118,0.3); }
+  .t-quote { font-size: 0.95rem; color: var(--ink2); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; font-weight: 300; }
+  .t-author { display: flex; align-items: center; gap: 12px; }
+  .t-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 0.88rem;
+    flex-shrink: 0;
+  }
+  .t-name { font-weight: 500; font-size: 0.88rem; color: var(--ink); }
+  .t-role { font-size: 0.78rem; color: var(--ink2); }
+  .stars { color: var(--accent); font-size: 0.8rem; margin-bottom: 1rem; letter-spacing: 2px; }
+
+  /* FOOTER */
+  footer {
+    background: #020704;
+    border-top: 1px solid rgba(0,230,118,0.1);
+    color: rgba(165,214,167,0.4);
+    padding: 3rem 5vw;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    color: var(--ink);
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.83rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: rgba(165,214,167,0.35); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .steps-grid::before { display: none; }
+    .steps-grid { gap: 2rem; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+    .pricing-cta-box { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Chatty<span>Bong</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob blob1"></div>
+  <div class="hero-blob blob2"></div>
+  <div class="hero-blob blob3"></div>
+
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    AI-powered support — live 24/7
+  </div>
+
+  <h1>
+    Support That Never<br>
+    <em>Sleeps</em> or<br>
+    <em>Forgets</em>
+  </h1>
+
+  <p class="hero-sub">
+    ChattyBong deploys intelligent assistant bots that handle customer queries, send timely reminders, and keep your team in sync — so your staff can focus on what matters.
+  </p>
+
+  <div class="hero-btns">
+    <a href="#demo" class="btn-primary">See It In Action</a>
+    <a href="mailto:pricing@chattybong.com" class="btn-ghost">Get Pricing →</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat reveal">
+    <div class="stat-num">98%</div>
+    <div class="stat-label">Query resolution rate</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-num">&lt;2s</div>
+    <div class="stat-label">Average response time</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">Always online</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Companies served</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="reveal">
+    <div class="section-tag">Features</div>
+    <h2 class="section-title">Built for teams that<br>can't afford to miss a beat</h2>
+    <p class="section-sub">From onboarding to SLA tracking, ChattyBong has your workflows covered with zero training time.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-purple">🤖</div>
+      <h3>Smart Support Bots</h3>
+      <p>Instantly handle FAQs, escalations, and ticket routing. Our bots learn from your knowledge base and get smarter every day.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-teal">⏰</div>
+      <h3>Automated Reminders</h3>
+      <p>Deadlines, renewals, meetings, follow-ups — ChattyBong sends the right reminder to the right person at the right moment.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-orange">📊</div>
+      <h3>Real-Time Analytics</h3>
+      <p>Dashboards that show resolution rates, peak hours, sentiment trends, and team performance at a glance.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-blue">🔗</div>
+      <h3>Seamless Integrations</h3>
+      <p>Connects with Slack, WhatsApp, email, Salesforce, HubSpot, Jira, and 80+ tools your team already uses.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-pink">🌐</div>
+      <h3>Multilingual Support</h3>
+      <p>Serve global customers fluently in 50+ languages without hiring multilingual agents.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon fi-amber">🔒</div>
+      <h3>Enterprise Security</h3>
+      <p>SOC 2 compliant, end-to-end encrypted, with role-based access and full audit logs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section" id="demo">
+  <div class="reveal">
+    <div class="section-tag">Live Examples</div>
+    <h2 class="section-title">Watch ChattyBong in action</h2>
+    <p class="section-sub">Real conversations your business can deploy in under 24 hours.</p>
+  </div>
+
+  <div class="demos-grid">
+
+    <!-- Chat 1: Customer Support -->
+    <div class="chat-window reveal">
+      <div class="chat-header">
+        <div class="chat-avatar fi-purple" style="background:rgba(0,230,118,0.15); width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🤖</div>
+        <div>
+          <div class="chat-name">Support Bot — Retail Co.</div>
+          <div class="chat-status">Online now</div>
+        </div>
+      </div>
+      <div class="chat-body">
+        <div class="chat-label">User</div>
+        <div class="msg msg-user">Hi, my order #4892 hasn't arrived yet. It's been 5 days.</div>
+        <div class="chat-label">ChattyBong</div>
+        <div class="msg msg-bot">Hi Sarah! 👋 I've pulled up order #4892 right away. It looks like there was a delay at our fulfilment centre — here's your updated tracking: <strong style="color:var(--accent2)">🟡 Out for delivery today</strong> by 6 PM.</div>
+        <div class="msg msg-bot">Would you like me to send you a live tracking link via SMS?</div>
+        <div class="chat-label right">User</div>
+        <div class="msg msg-user">Yes please!</div>
+        <div class="msg msg-accent2">✅ SMS sent to +44 7700 9XXXX — track here: <span style="text-decoration:underline;cursor:pointer">track.retailco.com/4892</span></div>
+        <div class="msg msg-bot">Is there anything else I can help with? 😊</div>
+      </div>
+    </div>
+
+    <!-- Chat 2: Reminder Bot -->
+    <div class="chat-window reveal">
+      <div class="chat-header">
+        <div style="background:rgba(105,240,174,0.15);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⏰</div>
+        <div>
+          <div class="chat-name">Reminder Bot — LawFirm Pro</div>
+          <div class="chat-status">Online now</div>
+        </div>
+      </div>
+      <div class="chat-body">
+        <div class="reminder-chip">Contract renewal — Acme Ltd — due in 3 days</div>
+        <div class="chat-label">ChattyBong</div>
+        <div class="msg msg-bot">📌 <strong style="color:var(--ink)">Heads up, James!</strong> The Acme Ltd contract expires on <strong style="color:var(--accent2)">June 1st</strong>. Would you like me to draft a renewal notice and send it to their procurement team?</div>
+        <div class="chat-label right">User</div>
+        <div class="msg msg-user">Yes, and remind me again 24h before.</div>
+        <div class="msg msg-bot">Done! I'll email them the renewal notice now and set your personal reminder for <strong style="color:var(--accent2)">May 31st at 9 AM</strong>. 📅</div>
+        <div class="reminder-chip" style="margin-top:4px;">📤 Email sent to procurement@acme.com</div>
+        <div class="msg msg-accent2">Priority: <span class="tag-pill pill-red">High</span> Status: <span class="tag-pill pill-green">Sent</span></div>
+      </div>
+    </div>
+
+    <!-- Chat 3: IT Helpdesk -->
+    <div class="chat-window reveal">
+      <div class="chat-header">
+        <div style="background:rgba(0,230,118,0.1);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">💻</div>
+        <div>
+          <div class="chat-name">IT Helpdesk — TechCorp</div>
+          <div class="chat-status">Online now</div>
+        </div>
+      </div>
+      <div class="chat-body">
+        <div class="chat-label">User</div>
+        <div class="msg msg-user">I can't connect to the VPN. I've tried restarting but it's still not working.</div>
+        <div class="chat-label">ChattyBong</div>
+        <div class="msg msg-bot">Sorry to hear that, Priya! 🛠️ Let me run a quick diagnostic. Are you seeing a specific error code?</div>
+        <div class="msg msg-user">It says Error 691.</div>
+        <div class="msg msg-bot"><strong style="color:var(--ink)">Error 691</strong> usually means your credentials have expired. Try resetting your password here: <span style="text-decoration:underline;color:var(--accent2);cursor:pointer">portal.techcorp.com/reset</span></div>
+        <div class="msg msg-bot">If that doesn't work, I'll escalate this to Level 2 support immediately. Typical fix time: <span class="tag-pill pill-yellow">~15 min</span></div>
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="reveal" style="text-align:center">
+    <div class="section-tag">Process</div>
+    <h2 class="section-title">Up and running in 4 steps</h2>
+    <p class="section-sub" style="margin:0 auto">No dev team needed. From sign-up to a live bot in under a day.</p>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <h4>Connect your channels</h4>
+      <p>Link your email, Slack, WhatsApp, or website chat in minutes with our one-click integrations.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <h4>Upload your knowledge</h4>
+      <p>Drop in your FAQs, policies, and SOPs. ChattyBong reads them and builds its brain automatically.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <h4>Set your workflows</h4>
+      <p>Configure reminder schedules, escalation rules, and response tones — no code required.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <h4>Go live & grow</h4>
+      <p>Deploy, monitor in real-time, and let the bot learn from every conversation it handles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases">
+  <div class="reveal">
+    <div class="section-tag">Use Cases</div>
+    <h2 class="section-title">One platform,<br>every industry</h2>
+    <p class="section-sub">ChattyBong adapts to how your business communicates — not the other way around.</p>
+  </div>
+
+  <div class="uc-grid">
+    <div class="uc-card reveal">
+      <div class="uc-icon">🏥</div>
+      <h3>Healthcare</h3>
+      <p>Appointment reminders, prescription refill nudges, patient FAQs, and after-hours triage support.</p>
+    </div>
+    <div class="uc-card reveal">
+      <div class="uc-icon">⚖️</div>
+      <h3>Legal & Compliance</h3>
+      <p>Deadline trackers, document request follow-ups, and client status updates around the clock.</p>
+    </div>
+    <div class="uc-card reveal">
+      <div class="uc-icon">🛒</div>
+      <h3>E-Commerce</h3>
+      <p>Order tracking, returns, refunds, product queries — fully automated with a human handoff when needed.</p>
+    </div>
+    <div class="uc-card reveal">
+      <div class="uc-icon">🏗️</div>
+      <h3>Operations & Logistics</h3>
+      <p>Shipment alerts, vendor reminders, SLA monitoring, and team task nudges in real time.</p>
+    </div>
+    <div class="uc-card reveal">
+      <div class="uc-icon">🎓</div>
+      <h3>Education</h3>
+      <p>Assignment reminders, event announcements, parent communication, and student FAQ bots.</p>
+    </div>
+    <div class="uc-card reveal">
+      <div class="uc-icon">🏦</div>
+      <h3>Finance & Banking</h3>
+      <p>Payment reminders, fraud alerts, account query handling, and onboarding assistance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="reveal" style="text-align:center">
+    <div class="section-tag">Testimonials</div>
+    <h2 class="section-title">Trusted by growing teams</h2>
+  </div>
+
+  <div class="t-grid">
+    <div class="t-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="t-quote">"ChattyBong cut our support ticket volume by 60% in the first month. Our team finally has breathing room to work on complex cases."</p>
+      <div class="t-author">
+        <div class="t-avatar" style="background:rgba(0,230,118,0.3); color:#050f07">AM</div>
+        <div>
+          <div class="t-name">Arjun Mehta</div>
+          <div class="t-role">Head of Ops, RetailCore India</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="t-quote">"The reminder bot alone is worth every penny. We used to miss renewal deadlines constantly — now that's a thing of the past."</p>
+      <div class="t-author">
+        <div class="t-avatar" style="background:rgba(105,240,174,0.25); color:#050f07">SC</div>
+        <div>
+          <div class="t-name">Sarah Chen</div>
+          <div class="t-role">Director of Legal, KaspFirm LLP</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="t-quote">"Setup was shockingly easy. We were live with a fully configured IT helpdesk bot in under 6 hours. Absolutely recommend."</p>
+      <div class="t-author">
+        <div class="t-avatar" style="background:rgba(0,230,118,0.2); color:#050f07">RO</div>
+        <div>
+          <div class="t-name">Ravi Okonkwo</div>
+          <div class="t-role">CTO, NexaTech Solutions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="reveal">
+    <div class="section-tag">Pricing</div>
+    <h2 class="section-title">Flexible plans for every size</h2>
+    <p class="section-sub">We tailor pricing to your team's needs, channel volume, and integration requirements. No hidden fees, ever.</p>
+  </div>
+
+  <div class="pricing-layout">
+    <!-- Left: info -->
+    <div class="pricing-left reveal">
+      <h3>Tell us about your needs — we'll handle the rest</h3>
+      <p>Every business is different. Fill in the form and we'll send you a custom quote within 24 hours with the exact plan that fits your team's size, channels, and workflow.</p>
+      <ul class="pricing-perks">
+        <li><div class="perk-icon">✅</div><span>Custom pricing based on your actual usage — no rigid tiers</span></li>
+        <li><div class="perk-icon">🚀</div><span>Free setup assistance and onboarding call included</span></li>
+        <li><div class="perk-icon">🔒</div><span>No contracts, cancel anytime — zero lock-in</span></li>
+        <li><div class="perk-icon">💬</div><span>Dedicated support manager for every account</span></li>
+        <li><div class="perk-icon">⚡</div><span>Response within 24 hours, usually much faster</span></li>
+      </ul>
+    </div>
+
+    <!-- Right: form -->
+    <div class="quote-form reveal">
+      <h3>Get a Custom Quote</h3>
+      <p class="form-sub">We'll reply to chattybong26@gmail.com within 24 hrs</p>
+
+      <div id="form-fields">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="f-name" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" id="f-company" placeholder="Acme Ltd">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Work Email</label>
+          <input type="email" id="f-email" placeholder="jane@company.com" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Team Size</label>
+            <select id="f-team">
+              <option value="" disabled selected>Select range</option>
+              <option>1–10 employees</option>
+              <option>11–50 employees</option>
+              <option>51–200 employees</option>
+              <option>200+ employees</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Primary Channel</label>
+            <select id="f-channel">
+              <option value="" disabled selected>Select channel</option>
+              <option>Website Chat</option>
+              <option>WhatsApp</option>
+              <option>Email / Helpdesk</option>
+              <option>Slack / Teams</option>
+              <option>Multiple Channels</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>What do you need? (optional)</label>
+          <textarea id="f-message" placeholder="Tell us about your support volume, current challenges, or any specific features you need…"></textarea>
+        </div>
+
+        <button class="btn-submit" id="submit-btn" onclick="submitForm()">
+          <span id="btn-text">Send My Request ✉️</span>
+        </button>
+      </div>
+
+      <div class="form-success" id="form-success">
+        <div class="success-icon">🎉</div>
+        <h4>Request sent!</h4>
+        <p>Thanks for reaching out. We've received your details and will send a custom quote to your email within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Chatty<span>Bong</span></div>
+  <p>© 2025 ChattyBong. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  async function submitForm() {
+    const name    = document.getElementById('f-name').value.trim();
+    const company = document.getElementById('f-company').value.trim();
+    const email   = document.getElementById('f-email').value.trim();
+    const team    = document.getElementById('f-team').value;
+    const channel = document.getElementById('f-channel').value;
+    const message = document.getElementById('f-message').value.trim();
+
+    if (!name || !email) {
+      document.getElementById('f-name').style.borderColor = !name ? '#ff6b35' : '';
+      document.getElementById('f-email').style.borderColor = !email ? '#ff6b35' : '';
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    document.getElementById('btn-text').textContent = 'Sending…';
+
+    const body = {
+      access_key: '945ed2e7-4bb1-45fa-bd4c-9e9ad9d34349', // Web3Forms public key placeholder
+      to: 'chattybong26@gmail.com',
+      subject: `ChattyBong Quote Request from ${name}${company ? ' — ' + company : ''}`,
+      from_name: 'ChattyBong Website',
+      name, email,
+      message: `
+Name: ${name}
+Company: ${company || 'Not provided'}
+Email: ${email}
+Team Size: ${team || 'Not selected'}
+Primary Channel: ${channel || 'Not selected'}
+Message: ${message || 'No message provided'}
+      `.trim()
+    };
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('form-fields').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        throw new Error('Failed');
+      }
+    } catch {
+      btn.disabled = false;
+      document.getElementById('btn-text').textContent = 'Send My Request ✉️';
+      alert('Something went wrong. Please email us directly at chattybong26@gmail.com');
+    }
+  }
+</script>
+
+</body>
+</html>
