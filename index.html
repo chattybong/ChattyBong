@@ -915,9 +915,16 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Work Email</label>
-          <input type="email" id="f-email" placeholder="jane@company.com" required>
+        <div class="form-group" id="email-group">
+          <label>Your Email Address <span style="color:var(--accent);font-size:0.7rem;letter-spacing:0">*</span></label>
+          <div style="position:relative;">
+            <input type="email" id="f-email" placeholder="you@example.com" required
+              oninput="validateEmail(this)"
+              onblur="validateEmail(this)"
+              style="padding-right:2.5rem;">
+            <span id="email-icon" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;opacity:0;transition:opacity 0.2s;"></span>
+          </div>
+          <span id="email-error" style="font-size:0.75rem;color:#ff6b6b;margin-top:4px;display:none;">Please enter a valid email address (e.g. you@example.com)</span>
         </div>
 
         <div class="form-row">
@@ -983,6 +990,28 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+  function validateEmail(input) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const valid = emailRegex.test(input.value.trim());
+    const error = document.getElementById('email-error');
+    const icon  = document.getElementById('email-icon');
+    const group = document.getElementById('email-group');
+    if (input.value.trim() === '') {
+      error.style.display = 'none';
+      icon.style.opacity = '0';
+      input.style.borderColor = 'rgba(0,230,118,0.15)';
+    } else if (valid) {
+      error.style.display = 'none';
+      icon.textContent = '✅'; icon.style.opacity = '1';
+      input.style.borderColor = 'rgba(0,230,118,0.5)';
+    } else {
+      error.style.display = 'block';
+      icon.textContent = '❌'; icon.style.opacity = '1';
+      input.style.borderColor = '#ff6b6b';
+    }
+    return valid;
+  }
+
   async function submitForm() {
     const name    = document.getElementById('f-name').value.trim();
     const company = document.getElementById('f-company').value.trim();
@@ -992,8 +1021,13 @@
     const message = document.getElementById('f-message').value.trim();
 
     if (!name || !email) {
-      document.getElementById('f-name').style.borderColor = !name ? '#ff6b35' : '';
-      document.getElementById('f-email').style.borderColor = !email ? '#ff6b35' : '';
+      document.getElementById('f-name').style.borderColor = !name ? '#ff6b6b' : '';
+      if (!email) validateEmail(document.getElementById('f-email'));
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      validateEmail(document.getElementById('f-email'));
       return;
     }
 
