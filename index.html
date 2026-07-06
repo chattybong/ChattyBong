@@ -22,6 +22,7 @@
     --serif: 'Fraunces', serif;
     --sans: 'IBM Plex Sans', sans-serif;
     --mono: 'IBM Plex Mono', monospace;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -48,12 +49,14 @@
   .logo{font-family:var(--serif); font-weight:600; font-size:1.4rem; letter-spacing:-0.01em;}
   .logo span{color:var(--accent);}
   .nav-links{display:flex; gap:32px; font-size:0.92rem; color:var(--text-dim);}
+  .nav-links a{transition:color 0.25s var(--ease);}
   .nav-links a:hover{color:var(--text);}
   .nav-cta{
     background:var(--accent); color:#1A1206; padding:10px 18px; border-radius:999px;
     font-weight:600; font-size:0.88rem; text-decoration:none; white-space:nowrap;
+    transition:background 0.25s var(--ease), transform 0.25s var(--ease);
   }
-  .nav-cta:hover{background:var(--accent-soft);}
+  .nav-cta:hover{background:var(--accent-soft); transform:translateY(-1px);}
   @media (max-width:800px){ .nav-links{display:none;} }
 
   /* ---------- HERO ---------- */
@@ -80,15 +83,17 @@
   .btn-primary{
     background:var(--accent); color:#1A1206; padding:14px 26px; border-radius:10px;
     font-weight:600; font-size:0.96rem; text-decoration:none; display:inline-block; border:none; cursor:pointer;
+    transition:background 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
   }
-  .btn-primary:hover{background:var(--accent-soft);}
+  .btn-primary:hover{background:var(--accent-soft); transform:translateY(-2px); box-shadow:0 10px 24px -12px rgba(232,163,61,0.5);}
   .btn-ghost{
     border:1px solid var(--panel-line); color:var(--text); padding:14px 26px; border-radius:10px;
     font-weight:500; font-size:0.96rem; text-decoration:none; display:inline-block;
+    transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
   }
-  .btn-ghost:hover{border-color:var(--text-faint);}
+  .btn-ghost:hover{border-color:var(--text-faint); transform:translateY(-2px);}
 
-  /* ---------- LIVE DEMO ---------- */
+  /* ---------- EXAMPLES ---------- */
   .demo-section{padding:20px 0 80px;}
   .demo-card{
     background:var(--panel); border:1px solid var(--panel-line); border-radius:20px;
@@ -103,34 +108,25 @@
   .demo-label{
     font-family:var(--mono); font-size:0.76rem; color:var(--text-faint); letter-spacing:0.03em;
   }
-  .demo-body{padding:22px; min-height:280px; display:flex; flex-direction:column; gap:12px;}
-  .msg{max-width:78%; padding:11px 15px; border-radius:14px; font-size:0.94rem;}
+  .example-set{padding:22px; display:flex; flex-direction:column; gap:22px;}
+  .example{
+    border-top:1px solid var(--panel-line); padding-top:22px;
+  }
+  .example:first-child{border-top:none; padding-top:0;}
+  .example-tag{
+    font-family:var(--mono); font-size:0.74rem; color:var(--green-pop); text-transform:uppercase;
+    letter-spacing:0.06em; margin-bottom:12px; display:block;
+  }
+  .example-thread{display:flex; flex-direction:column; gap:10px;}
+  .msg{max-width:78%; padding:11px 15px; border-radius:14px; font-size:0.94rem;
+    animation:fadeUp 0.5s var(--ease) backwards;}
   .msg.bot{background:var(--bg-soft); align-self:flex-start; border-bottom-left-radius:4px;}
   .msg.user{background:var(--accent); color:#1A1206; align-self:flex-end; border-bottom-right-radius:4px; font-weight:500;}
-  .msg.typing{background:var(--bg-soft); align-self:flex-start; display:flex; gap:4px; padding:14px 16px;}
-  .msg.typing span{width:6px; height:6px; border-radius:50%; background:var(--text-faint); animation:blink 1.2s infinite;}
-  .msg.typing span:nth-child(2){animation-delay:0.2s;}
-  .msg.typing span:nth-child(3){animation-delay:0.4s;}
-  @keyframes blink{0%,80%,100%{opacity:0.25;} 40%{opacity:1;}}
-  .demo-input-row{
-    display:flex; gap:10px; padding:16px 22px; border-top:1px solid var(--panel-line);
-    background:var(--bg-soft);
+  .example-thread .msg:nth-child(2){animation-delay:0.12s;}
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
   }
-  .demo-input-row input{
-    flex:1; background:var(--panel); border:1px solid var(--panel-line); color:var(--text);
-    padding:12px 14px; border-radius:10px; font-size:0.94rem; font-family:var(--sans);
-  }
-  .demo-input-row input:focus{outline:2px solid var(--accent); outline-offset:1px;}
-  .demo-input-row button{
-    background:var(--accent); color:#1A1206; border:none; padding:0 20px; border-radius:10px;
-    font-weight:600; cursor:pointer;
-  }
-  .demo-chips{display:flex; gap:8px; flex-wrap:wrap; padding:0 22px 18px;}
-  .chip{
-    font-family:var(--mono); font-size:0.76rem; color:var(--text-dim); border:1px solid var(--panel-line);
-    padding:6px 12px; border-radius:999px; cursor:pointer; background:transparent;
-  }
-  .chip:hover{border-color:var(--accent); color:var(--accent-soft);}
 
   /* ---------- SECTION GENERIC ---------- */
   section{padding:80px 0;}
@@ -152,8 +148,9 @@
   @media (max-width:900px){.grid-3{grid-template-columns:1fr;}}
   .feat-card{
     background:var(--panel); border:1px solid var(--panel-line); border-radius:var(--radius);
-    padding:26px;
+    padding:26px; transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
   }
+  .feat-card:hover{border-color:var(--text-faint); transform:translateY(-3px);}
   .feat-card .icon{
     width:38px; height:38px; border-radius:10px; background:var(--bg-soft);
     display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--accent-soft);
@@ -181,8 +178,9 @@
   .chan-card{
     border:1px solid var(--panel-line); border-radius:12px; padding:20px 16px;
     display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;
-    background:var(--panel);
+    background:var(--panel); transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
   }
+  .chan-card:hover{border-color:var(--text-faint); transform:translateY(-3px);}
   .chan-card .glyph{
     width:42px; height:42px; border-radius:10px; background:var(--bg-soft);
     display:flex; align-items:center; justify-content:center;
@@ -208,8 +206,9 @@
   @media (max-width:900px){.grid-pricing{grid-template-columns:1fr;}}
   .price-card{
     border:1px solid var(--panel-line); border-radius:var(--radius); padding:30px; background:var(--panel);
-    display:flex; flex-direction:column;
+    display:flex; flex-direction:column; transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
   }
+  .price-card:hover{transform:translateY(-3px);}
   .price-card.featured{border-color:var(--accent);}
   .price-card h3{font-family:var(--serif); font-size:1.2rem; margin-bottom:6px;}
   .price-card .price{font-family:var(--serif); font-size:2.1rem; color:var(--accent-soft); margin:14px 0 4px;}
@@ -226,7 +225,7 @@
     display:flex; justify-content:space-between; align-items:center;
   }
   .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item summary::after{content:'+'; color:var(--accent); font-size:1.4rem; font-family:var(--sans);}
+  .faq-item summary::after{content:'+'; color:var(--accent); font-size:1.4rem; font-family:var(--sans); transition:transform 0.25s var(--ease);}
   .faq-item[open] summary::after{content:'–';}
   .faq-item p{color:var(--text-dim); margin-top:12px; font-size:0.94rem; max-width:640px;}
 
@@ -239,7 +238,11 @@
   .final-cta p{color:var(--text-dim); max-width:480px; margin:0 auto 30px;}
 
   footer{border-top:1px solid var(--panel-line); padding:36px 0; color:var(--text-faint); font-size:0.85rem;}
-  footer .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  footer .foot-row{display:flex; justify-content:center; flex-wrap:wrap; gap:12px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
 </style>
 </head>
 <body>
@@ -248,7 +251,7 @@
   <nav class="wrap">
     <div class="logo">Chatty<span>Bong</span></div>
     <div class="nav-links">
-      <a href="#demo">Live demo</a>
+      <a href="#demo">Examples</a>
       <a href="#how">How it works</a>
       <a href="#case-study">Case study</a>
       <a href="#pricing">Pricing</a>
@@ -264,7 +267,7 @@
     <h1>Support that remembers the conversation <em>and</em> the deadline.</h1>
     <p class="lead">ChattyBong answers customer questions in your existing channels, then follows up on the things that would otherwise fall through — renewals, refunds, callbacks — without a human having to set a reminder.</p>
     <div class="hero-ctas">
-      <a class="btn-primary" href="#demo">Try the live demo ↓</a>
+      <a class="btn-primary" href="#demo">See it in action ↓</a>
       <a class="btn-ghost" href="#contact">Talk to us</a>
     </div>
   </div>
@@ -275,19 +278,30 @@
     <div class="demo-card">
       <div class="demo-head">
         <div class="dot-row"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-        <div class="demo-label">LIVE DEMO — SANDBOX, NOT CONNECTED TO REAL DATA</div>
+        <div class="demo-label">EXAMPLE CONVERSATIONS</div>
       </div>
-      <div class="demo-body" id="demoBody">
-        <div class="msg bot">Hey! I'm the ChattyBong demo bot. Ask me about an order, a contract renewal, or a login issue — try one of the chips below or type your own.</div>
-      </div>
-      <div class="demo-chips">
-        <button class="chip" onclick="runDemo('order')">Where's my order?</button>
-        <button class="chip" onclick="runDemo('contract')">My contract is renewing soon</button>
-        <button class="chip" onclick="runDemo('vpn')">I can't connect to the VPN</button>
-      </div>
-      <div class="demo-input-row">
-        <input id="demoInput" type="text" placeholder="Type a message…" onkeydown="if(event.key==='Enter'){handleCustom();}">
-        <button onclick="handleCustom()">Send</button>
+      <div class="example-set">
+        <div class="example">
+          <span class="example-tag">Order status</span>
+          <div class="example-thread">
+            <div class="msg user">Hi, where's my order #48213?</div>
+            <div class="msg bot">Found it — shipped yesterday via BlueDart, tracking JD00219X, expected Thursday. Want the tracking link?</div>
+          </div>
+        </div>
+        <div class="example">
+          <span class="example-tag">Contract renewal</span>
+          <div class="example-thread">
+            <div class="msg user">My contract is renewing soon, can I get details?</div>
+            <div class="msg bot">Your plan renews on the 18th at the current rate. I can send the renewal summary now, or connect you with your account manager if you'd like to discuss changes.</div>
+          </div>
+        </div>
+        <div class="example">
+          <span class="example-tag">IT support</span>
+          <div class="example-thread">
+            <div class="msg user">I can't connect to the VPN, keeps timing out.</div>
+            <div class="msg bot">That usually means an expired client cert. I've reset yours — try reconnecting in about 2 minutes. If it still fails, I'll loop in IT with your device details attached.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -379,7 +393,7 @@
       <div class="founder-avatar">CB</div>
       <div>
         <blockquote>"We kept watching support teams answer the same three questions all day, then forget the one follow-up that actually mattered. ChattyBong is our attempt to fix both halves of that problem — not just answer faster, but remember better."</blockquote>
-        <cite>— [Your name], Founder, ChattyBong &nbsp;·&nbsp; replace with your own note before this goes live</cite>
+        <cite>— Shivansh, Founder, ChattyBong</cite>
       </div>
     </div>
   </div>
@@ -390,12 +404,12 @@
     <div class="section-head">
       <div class="eyebrow">Pricing</div>
       <h2>Straightforward, while we're in early access.</h2>
-      <p>Final pricing depends on channels and volume — these are starting points, not final quotes.</p>
+      <p>Final pricing depends on channels and volume — these are starting points, not final quotes. All prices are in INR and exclude GST.</p>
     </div>
     <div class="grid-pricing">
       <div class="price-card">
         <h3>Starter</h3>
-        <div class="price">$49<small>/mo</small></div>
+        <div class="price">₹4,999<small>/mo</small></div>
         <ul>
           <li>1 channel</li>
           <li>Up to 500 conversations/mo</li>
@@ -405,7 +419,7 @@
       </div>
       <div class="price-card featured">
         <h3>Growth</h3>
-        <div class="price">$199<small>/mo</small></div>
+        <div class="price">₹18,999<small>/mo</small></div>
         <ul>
           <li>Up to 3 channels</li>
           <li>Up to 5,000 conversations/mo</li>
@@ -449,7 +463,7 @@
       </details>
       <details class="faq-item">
         <summary>Can we try it before committing?</summary>
-        <p>Yes — the live demo above is a good first look, and we offer a short pilot with your own data before any contract.</p>
+        <p>Yes — the examples above are a good first look, and we offer a short pilot with your own data before any contract.</p>
       </details>
     </div>
   </div>
@@ -460,7 +474,7 @@
     <div class="final-cta">
       <h2>See it running on your own tickets.</h2>
       <p>15 minutes, no deck — we'll connect a sandbox to a sample of your real queries and show you exactly what it catches and what it doesn't.</p>
-      <a class="btn-primary" href="mailto:hello@chattybong.com">Book a 15-minute call</a>
+      <a class="btn-primary" href="mailto:chattybong26@gmail.com">Book a 15-minute call</a>
     </div>
   </div>
 </section>
@@ -468,81 +482,8 @@
 <footer>
   <div class="wrap foot-row">
     <div>© 2026 ChattyBong. Early access.</div>
-    <div>hello@chattybong.com</div>
   </div>
 </footer>
-
-<script>
-const demoBody = document.getElementById('demoBody');
-
-const scripts = {
-  order: [
-    {who:'user', text:"Hi, where's my order #48213?"},
-    {who:'bot', text:"Found it — shipped yesterday via BlueDart, tracking JD00219X, expected Thursday. Want the tracking link?"}
-  ],
-  contract: [
-    {who:'user', text:"My contract is renewing soon, can I get details?"},
-    {who:'bot', text:"Your plan renews on the 18th at the current rate. I can send the renewal summary now, or connect you with your account manager if you'd like to discuss changes."}
-  ],
-  vpn: [
-    {who:'user', text:"I can't connect to the VPN, keeps timing out."},
-    {who:'bot', text:"That usually means an expired client cert. I've reset yours — try reconnecting in about 2 minutes. If it still fails, I'll loop in IT with your device details attached."}
-  ]
-};
-
-function addMessage(text, cls){
-  const div = document.createElement('div');
-  div.className = 'msg ' + cls;
-  div.textContent = text;
-  demoBody.appendChild(div);
-  demoBody.scrollTop = demoBody.scrollHeight;
-}
-
-function addTyping(){
-  const div = document.createElement('div');
-  div.className = 'msg typing';
-  div.id = 'typingIndicator';
-  div.innerHTML = '<span></span><span></span><span></span>';
-  demoBody.appendChild(div);
-  demoBody.scrollTop = demoBody.scrollHeight;
-}
-
-function removeTyping(){
-  const el = document.getElementById('typingIndicator');
-  if(el) el.remove();
-}
-
-function runDemo(key){
-  const steps = scripts[key];
-  addMessage(steps[0].text, 'user');
-  addTyping();
-  setTimeout(() => {
-    removeTyping();
-    addMessage(steps[1].text, 'bot');
-  }, 900);
-}
-
-function genericReply(text){
-  const lower = text.toLowerCase();
-  if(lower.includes('order') || lower.includes('ship') || lower.includes('track')) return scripts.order[1].text;
-  if(lower.includes('contract') || lower.includes('renew') || lower.includes('refund')) return scripts.contract[1].text;
-  if(lower.includes('vpn') || lower.includes('login') || lower.includes('access') || lower.includes('password')) return scripts.vpn[1].text;
-  return "Got it — in a live workspace I'd pull this from your actual docs and tickets. Want to see that on a real call?";
-}
-
-function handleCustom(){
-  const input = document.getElementById('demoInput');
-  const text = input.value.trim();
-  if(!text) return;
-  addMessage(text, 'user');
-  input.value = '';
-  addTyping();
-  setTimeout(() => {
-    removeTyping();
-    addMessage(genericReply(text), 'bot');
-  }, 900);
-}
-</script>
 
 </body>
 </html>
