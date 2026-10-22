@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ChattyBong: AI support that remembers the follow-up</title>
+<title>ChattyBomb: One inbox, one brain, zero missed follow-ups</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
@@ -134,6 +134,87 @@ details p{padding-bottom:20px; color:var(--dim);}
 .cta p{margin:16px auto 28px; max-width:46ch; opacity:.92;}
 .cta .btn{background:var(--mark); color:var(--mark-ink);}
 footer{padding:36px 0 48px; color:var(--dim); font-size:.9rem; text-align:center;}
+
+/* INTERACTIVE ADDITIONS */
+:root{--warn:#A24A06;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--warn:#FFB066;}}
+:root[data-theme="dark"]{--warn:#FFB066;}
+.badge.warn{color:var(--warn);}
+.try{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start;}
+@media(max-width:860px){.try{grid-template-columns:1fr;}}
+.phone{background:var(--surface); border:1px solid var(--line); border-radius:22px; overflow:hidden; box-shadow:0 24px 50px -28px rgba(20,26,51,.35);}
+.phone-top{padding:14px 20px; background:var(--soft); border-bottom:1px solid var(--line);}
+.phone-top b{display:block; font-family:var(--display); font-size:1.05rem;}
+.phone-top small{color:var(--ok); font-weight:600; font-size:.84rem;}
+.tchat{padding:18px 20px; display:flex; flex-direction:column; gap:10px; height:300px; overflow-y:auto; scroll-behavior:smooth;}
+.dots{display:inline-flex; gap:4px; padding:4px 0;}
+.dots i{width:7px; height:7px; border-radius:50%; background:var(--dim); animation:blink 1s infinite;}
+.dots i:nth-child(2){animation-delay:.15s;} .dots i:nth-child(3){animation-delay:.3s;}
+@keyframes blink{0%,80%,100%{opacity:.25;} 40%{opacity:1;}}
+.chips{display:flex; flex-wrap:wrap; gap:8px; padding:0 16px 12px;}
+.chip{min-height:38px; padding:0 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font:500 .86rem var(--body); cursor:pointer; transition:background .2s, border-color .2s;}
+.chip:hover{border-color:var(--brand); background:var(--soft);}
+.tform{display:flex; gap:8px; padding:12px 16px 16px; border-top:1px solid var(--line);}
+.tform input{flex:1; min-width:0; min-height:46px; padding:0 14px; border-radius:12px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:400 16px var(--body);}
+.tform input:focus-visible{outline-offset:1px;}
+.tform .btn{min-height:46px; padding:0 18px;}
+.owner{background:var(--surface); border:1px solid var(--line); border-radius:22px; padding:22px;}
+.owner h3{font-size:1.1rem; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+.owner .reset{font:500 .84rem var(--body); color:var(--dim); background:none; border:0; text-decoration:underline; cursor:pointer; min-height:36px;}
+.stats{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0 6px;}
+.stat{background:var(--soft); border-radius:12px; padding:12px 14px;}
+.stat b{display:block; font-family:var(--display); font-size:2rem; line-height:1.1;}
+.stat span{font-size:.85rem; color:var(--dim);}
+.stat.bump b{animation:bump .5s ease;}
+@keyframes bump{40%{transform:scale(1.25); color:var(--brand);}}
+.feed-empty{color:var(--dim); font-size:.92rem; margin-top:12px;}
+.owner .mem-item{animation:pop .35s ease backwards;}
+.fine{font-size:.82rem; color:var(--dim); margin-top:14px;}
+
+.sbar{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:24px;}
+.sb{display:flex; flex-direction:column; align-items:center; gap:8px; padding:10px 4px; border:0; background:none; color:var(--dim); font:500 .88rem var(--body); cursor:pointer; min-height:48px; border-radius:12px;}
+.sb .n{width:40px; height:40px; border-radius:50%; display:grid; place-items:center; background:var(--soft); border:1px solid var(--line); font:700 1rem var(--display); color:var(--ink); transition:background .25s, transform .25s;}
+.sb.done .n{background:var(--mark); color:var(--mark-ink); border-color:var(--mark);}
+.sb[aria-selected="true"]{color:var(--ink);}
+.sb[aria-selected="true"] .n{background:var(--brand); color:var(--brand-ink); border-color:var(--brand); transform:scale(1.12);}
+.spanel{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media(max-width:700px){.spanel{grid-template-columns:1fr;} .sb{font-size:.74rem;}}
+.scard{border-radius:18px; padding:22px; min-height:140px;}
+.scard small{display:block; font:600 .78rem var(--body); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px;}
+.scard p{font-size:1.02rem;}
+.scard.o{background:var(--ink); color:var(--bg);} .scard.o small{color:var(--mark);}
+.scard.c{background:var(--surface); border:1px solid var(--line);} .scard.c small{color:var(--brand);}
+.swhen{font-family:var(--display); font-size:1.3rem; font-weight:600; margin-bottom:14px;}
+.snav{display:flex; gap:10px; margin-top:18px;}
+.spanel.swap .scard{animation:pop .35s ease backwards;}
+
+.tog{display:inline-flex; gap:4px; padding:4px; background:var(--soft); border-radius:12px; margin-top:22px;}
+.tog button{min-height:40px; padding:0 14px; border:0; border-radius:9px; background:transparent; color:var(--dim); font:500 .88rem var(--body); cursor:pointer;}
+.tog button[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 3px rgba(20,26,51,.15);}
+.tl{margin-top:16px; display:flex; flex-direction:column; gap:10px; max-width:62ch;}
+.tl div{display:flex; gap:14px; align-items:baseline; padding:10px 14px; border-radius:12px; background:var(--soft); border-left:4px solid var(--dim); animation:pop .35s ease backwards;}
+.tl.win div{border-left-color:var(--ok);}
+.tl b{font-family:var(--display); min-width:72px;}
+.tl span{color:var(--dim); font-size:.95rem;}
+
+.calc{display:grid; grid-template-columns:1.1fr 1fr; gap:36px; align-items:start;}
+@media(max-width:860px){.calc{grid-template-columns:1fr;}}
+.field{margin-bottom:22px;}
+.field label{display:flex; justify-content:space-between; gap:12px; font-weight:500; margin-bottom:8px;}
+.field output{font-family:var(--display); font-weight:700; color:var(--brand);}
+.field input[type=range]{width:100%; accent-color:var(--brand); min-height:28px;}
+.res{background:var(--surface); border:1px solid var(--line); border-radius:22px; padding:28px;}
+.res .big{font-family:var(--display); font-size:clamp(2.2rem,5vw,3.2rem); font-weight:700; color:var(--brand); line-height:1.1; margin:6px 0 4px;}
+.res hr{border:0; border-top:1px dashed var(--line); margin:18px 0;}
+.res .row{display:flex; justify-content:space-between; gap:16px; padding:6px 0; color:var(--dim);}
+.res .row b{color:var(--ink); font-family:var(--display);}
+.res .sug{margin-top:16px; padding:14px 16px; border-radius:12px; background:var(--soft); border-left:4px solid var(--mark);}
+.plan{position:relative; transition:transform .3s, box-shadow .3s;}
+.plan.suggest{outline:3px solid var(--mark); outline-offset:4px;}
+.plan.suggest::after{content:"Suggested for your numbers"; position:absolute; top:-14px; right:16px; background:var(--mark); color:var(--mark-ink); font:600 .76rem var(--body); padding:3px 10px; border-radius:999px;}
+.plan:hover{transform:translateY(-4px); box-shadow:0 18px 36px -24px rgba(20,26,51,.45);}
+.chan{transition:transform .2s, border-color .2s;} .chan:hover{transform:translateY(-3px); border-color:var(--brand);}
+.job{transition:transform .25s;} .job:hover{transform:translateY(-4px);}
 /* SCROLL EFFECTS */
 .progress{position:fixed; top:env(safe-area-inset-top,0px); left:0; right:0; height:3px; background:var(--mark); transform:scaleX(0); transform-origin:0 50%; z-index:70;}
 header{transition:box-shadow .3s;} header.scrolled{box-shadow:0 8px 24px -16px rgba(20,26,51,.45);}
@@ -151,10 +232,10 @@ html.js .thread .msg[data-r].in{transform:none;}
 <div class="progress" id="bar" aria-hidden="true"></div>
 <header>
   <nav class="wrap" aria-label="Main">
-    <a class="logo" href="#top" aria-label="ChattyBong home">
-      <i aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B83D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M5 7h14M5 17h8"/></svg></i>ChattyBong
+    <a class="logo" href="#top" aria-label="ChattyBomb home">
+      <i aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5B83D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M5 7h14M5 17h8"/></svg></i>ChattyBomb
     </a>
-    <div class="links"><a href="#how">How it works</a><a href="#case">Example</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+    <div class="links"><a href="#how">How it works</a><a href="#try">Try it</a><a href="#journey">Journey</a><a href="#calc">Calculator</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
     <a class="btn btn-main" href="#contact" style="min-height:40px;padding:0 18px;">Book a call</a>
   </nav>
 </header>
@@ -163,24 +244,24 @@ html.js .thread .msg[data-r].in{transform:none;}
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <h1>Support that remembers <span>the follow-up</span>, not just the question.</h1>
-      <p class="lead">ChattyBong answers customers in the channels you already use, then keeps track of renewals, refunds and callbacks, so nothing slips because nobody set a reminder.</p>
+      <h1>One inbox, one brain, <span>zero missed follow-ups</span>.</h1>
+      <p class="lead">ChattyBomb answers customers on the WhatsApp number they already know, using your own PDFs, FAQs and price lists, then keeps track of bookings, callbacks and renewals so nothing slips because nobody set a reminder.</p>
       <div class="ctas">
         <a class="btn btn-main" href="#contact">Book a 15-minute call</a>
-        <a class="btn btn-line" href="#pricing">See pricing</a>
+        <a class="btn btn-line" href="#try">Try it live</a>
       </div>
-      <p class="note">Early access. We onboard a few new teams every week.</p>
+      <p class="note">Early access. Free 14-day pilot for local service businesses: clinics, salons and coaching centers.</p>
     </div>
 
     <div class="demo" aria-label="Interactive example">
       <div class="tabs" role="tablist" aria-label="Choose a conversation">
-        <button class="tab" role="tab" aria-selected="true" data-i="0">Order status</button>
-        <button class="tab" role="tab" aria-selected="false" data-i="1">Renewal</button>
-        <button class="tab" role="tab" aria-selected="false" data-i="2">IT help</button>
+        <button class="tab" role="tab" aria-selected="true" data-i="0">Booking</button>
+        <button class="tab" role="tab" aria-selected="false" data-i="1">Refund query</button>
+        <button class="tab" role="tab" aria-selected="false" data-i="2">Fee details</button>
       </div>
       <div class="chat" id="chat" aria-live="polite"></div>
       <div class="memory">
-        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>What ChattyBong will remember</h3>
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>What ChattyBomb will remember</h3>
         <div id="mem"></div>
       </div>
     </div>
@@ -191,24 +272,79 @@ html.js .thread .msg[data-r].in{transform:none;}
   <div class="wrap">
     <div class="head">
       <h2>One assistant, three jobs</h2>
-      <p>It handles the parts of support that are repetitive, time-sensitive or easy to forget.</p>
+      <p>It handles the parts of customer chat that are repetitive, time-sensitive or easy to forget, even at 11:30 PM.</p>
     </div>
     <div class="jobs">
       <div class="job">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
-        <h3>Answers in your voice</h3>
-        <p>Learns from your docs, macros and past tickets, so replies sound like your team wrote them.</p>
+        <h3>Answers from your own documents</h3>
+        <p>Upload a PDF, FAQ or price list and the bot learns it right away. Replies come from your own material, in a friendly tone, within seconds.</p>
       </div>
       <div class="job">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>
         <h3>Remembers what's pending</h3>
-        <p>Tracks open threads like a renewal, a refund or a callback, and follows up on time without a human reminder.</p>
+        <p>Saves every lead, logs callbacks and queues reminders and renewal nudges, so follow-ups go out on time without a human reminder.</p>
       </div>
       <div class="job">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h12M12 6l6 6-6 6M20 4v16"/></svg>
-        <h3>Hands off with full context</h3>
-        <p>When a question needs judgment, a person gets the whole conversation. Nobody has to repeat the issue.</p>
+        <h3>Knows when to hand off</h3>
+        <p>Booking, complaint or sales lead? The bot decides. When a question needs judgment, a person gets the whole conversation.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="try" class="band">
+  <div class="wrap">
+    <div class="head">
+      <h2>Try it yourself</h2>
+      <p>Message a sample clinic and watch the owner's dashboard update as you chat. This demo is scripted with sample data. The real bot answers from your own PDFs and FAQs.</p>
+    </div>
+    <div class="try">
+      <div class="phone">
+        <div class="phone-top"><b>Dr. Rao's Clinic</b><small>● AI assistant · online 24/7</small></div>
+        <div class="tchat" id="tchat" aria-live="polite"></div>
+        <div class="chips" id="chips">
+          <button class="chip" type="button">Is Dr. Rao free Saturday?</button>
+          <button class="chip" type="button">What's the fee?</button>
+          <button class="chip" type="button">Yes, book it</button>
+          <button class="chip" type="button">I was charged twice</button>
+        </div>
+        <form class="tform" id="tform" autocomplete="off">
+          <input id="tin" type="text" placeholder="Type as a customer..." aria-label="Type a message as a customer">
+          <button class="btn btn-main" type="submit">Send</button>
+        </form>
+      </div>
+      <div class="owner">
+        <h3>Owner dashboard <button class="reset" id="treset" type="button">Reset demo</button></h3>
+        <div class="stats">
+          <div class="stat" id="s-leads"><b>0</b><span>leads saved</span></div>
+          <div class="stat" id="s-book"><b>0</b><span>bookings won</span></div>
+          <div class="stat" id="s-fu"><b>0</b><span>follow-ups due</span></div>
+          <div class="stat" id="s-human"><b>0</b><span>need a human</span></div>
+        </div>
+        <div id="feed"><p class="feed-empty">Nothing yet. Send a message on the left.</p></div>
+        <p class="fine">Try asking about a slot, then confirm it. Or raise a complaint to see the hand-off.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="wrap">
+    <div class="head">
+      <h2>From first message to renewed customer in 5 steps</h2>
+      <p>Pick a step to see what the owner sees and what the customer sees.</p>
+    </div>
+    <div class="sbar" id="sbar" role="tablist" aria-label="Customer journey steps"></div>
+    <div class="swhen" id="swhen"></div>
+    <div class="spanel" id="spanel" aria-live="polite">
+      <div class="scard o"><small>Owner sees</small><p id="s-o"></p></div>
+      <div class="scard c"><small>Customer sees</small><p id="s-c"></p></div>
+    </div>
+    <div class="snav">
+      <button class="btn btn-line" id="sprev" type="button">Back</button>
+      <button class="btn btn-main" id="snext" type="button">Next step</button>
     </div>
   </div>
 </section>
@@ -216,63 +352,93 @@ html.js .thread .msg[data-r].in{transform:none;}
 <section id="case" class="band">
   <div class="wrap case">
     <div>
-      <h2>Order-status questions, answered before they reach a person</h2>
-      <p>"Where is my order?" is a question your shipping data already answers. ChattyBong reads that data and replies in the customer's own channel. Anything unusual, such as a damaged item or a wrong address, goes to a human with the order history attached.</p>
-      <p>We're early, so this shows how the workflow is designed to behave, not a published customer benchmark. Ask for a walkthrough using your own ticket data.</p>
+      <h2>Late-night enquiries, answered before they are lost</h2>
+      <p>A customer asks about a Saturday slot at 11:30 PM. Without ChattyBomb, the owner reads it at 9:00 AM and the customer has already booked somewhere else. With it, the answer comes instantly from your own fee list, a slot is offered, and a reminder is set.</p>
+      <p>We're early, so this shows how the workflow is designed to behave, not a published customer benchmark. Ask for a live demo using your own FAQs.</p>
+      <div class="tog" role="tablist" aria-label="Compare outcomes">
+        <button type="button" role="tab" aria-selected="true" data-w="0">Without ChattyBomb</button>
+        <button type="button" role="tab" aria-selected="false" data-w="1">With ChattyBomb</button>
+      </div>
+      <div class="tl" id="tl" aria-live="polite"></div>
     </div>
-    <div class="thread" role="img" aria-label="Sample conversation about order 48213 with a damage flag raised">
-      <div class="msg u">Hi, any update on order #48213?</div>
-      <div class="msg b">Shipped yesterday via BlueDart, tracking JD00219X, due Thursday. Want the tracking link?</div>
-      <div class="msg u">Yes please. Last time it arrived damaged. Can someone check the packaging?</div>
-      <div class="msg b">Noted. I've flagged this to our fulfillment lead with your last delivery attached. They'll confirm packaging before it ships.</div>
+    <div class="thread" role="img" aria-label="Sample WhatsApp conversation at 11:30 PM where a clinic's assistant books a Saturday slot and states the fee">
+      <div class="msg u">Is Dr. Rao free Saturday?</div>
+      <div class="msg b">Yes! 10:30 AM is open. Shall I book it?</div>
+      <div class="msg u">Yes. What's the fee?</div>
+      <div class="msg b">Booked ✓ Fee is ₹500 per your price list. Reminder tomorrow.</div>
     </div>
   </div>
 </section>
 
 <section id="channels">
   <div class="wrap">
-    <div class="head"><h2>Works where your customers already are</h2><p>The full list of live integrations is shared on a call. We'd rather show you the real connector than a logo wall.</p></div>
+    <div class="head"><h2>Works on the number customers already know</h2><p>ChattyBomb runs on the WhatsApp Cloud API, so every message lands on your existing number. Nothing new for your customers to learn.</p></div>
     <div class="chans">
-      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Team chat (Slack-style)</div>
-      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Messaging apps (WhatsApp-style)</div>
-      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</div>
-      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Ticketing (Jira or Zendesk-style)</div>
+      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>WhatsApp Cloud API</div>
+      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Owner dashboard</div>
+      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>PDF, FAQ and price list upload</div>
+      <div class="chan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Follow-up reminders</div>
     </div>
   </div>
 </section>
 
-<section id="pricing" class="band">
+<section id="calc" class="band">
   <div class="wrap">
-    <div class="head"><h2>Simple pricing while we're in early access</h2><p>Starting points, not final quotes. Final pricing depends on channels and volume. Prices are in INR and exclude GST.</p></div>
+    <div class="head">
+      <h2>What are slow replies costing you?</h2>
+      <p>Move the sliders to match your business. It is simple arithmetic on your own numbers, not a forecast or a promise.</p>
+    </div>
+    <div class="calc">
+      <div>
+        <div class="field"><label for="c1">Customer messages a week <output id="o1"></output></label><input id="c1" type="range" min="10" max="500" step="10" value="80"></div>
+        <div class="field"><label for="c2">Share that arrive when nobody can reply quickly <output id="o2"></output></label><input id="c2" type="range" min="5" max="70" step="5" value="30"></div>
+        <div class="field"><label for="c3">Share of those who would have booked <output id="o3"></output></label><input id="c3" type="range" min="5" max="60" step="5" value="20"></div>
+        <div class="field"><label for="c4">Value of one booking <output id="o4"></output></label><input id="c4" type="range" min="100" max="5000" step="100" value="500"></div>
+      </div>
+      <div class="res" aria-live="polite">
+        <div class="dim">Revenue at risk each month</div>
+        <div class="big" id="r-risk"></div>
+        <div class="row"><span>Bookings missed a month</span><b id="r-miss"></b></div>
+        <div class="row"><span>If half are won back</span><b id="r-back"></b></div>
+        <hr>
+        <div class="row"><span>Conversations a month</span><b id="r-conv"></b></div>
+        <div class="sug" id="r-sug"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="head"><h2>Usage-based pricing that a clinic can say yes to</h2><p>Optional one-time onboarding setup: ₹2,000 to ₹5,000. Replies inside WhatsApp's 24-hour window are free; template follow-ups are passed through at Meta's cost. Prices are in INR and exclude GST.</p></div>
     <div class="plans">
       <div class="plan">
         <h3>Starter</h3>
-        <div class="price">₹4,999<small> /month</small></div>
+        <div class="price">₹999<small> /month</small></div>
         <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>1 channel</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Up to 500 conversations a month</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Email support</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Answers from your own PDFs and FAQs</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Lead capture on your WhatsApp number</li>
         </ul>
-        <a class="btn btn-line" href="#contact">Get started</a>
+        <a class="btn btn-line" href="#contact">Start free pilot</a>
       </div>
       <div class="plan pick">
-        <span class="tag">Most teams start here</span>
+        <span class="tag">Most popular</span>
         <h3>Growth</h3>
-        <div class="price">₹18,999<small> /month</small></div>
+        <div class="price">₹2,999<small> /month</small></div>
         <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Up to 3 channels</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Up to 5,000 conversations a month</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Reminder and follow-up automation</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Priority support</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>2,000 conversations a month</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Follow-up automation</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Callback and renewal reminders</li>
         </ul>
-        <a class="btn btn-main" href="#contact">Get started</a>
+        <a class="btn btn-main" href="#contact">Start free pilot</a>
       </div>
       <div class="plan">
-        <h3>Enterprise</h3>
+        <h3>Scale</h3>
         <div class="price">Custom</div>
         <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Unlimited channels</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Custom data retention and security review</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Built for multi-branch businesses</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Volume to match your branches</li>
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Dedicated onboarding</li>
         </ul>
         <a class="btn btn-line" href="#contact">Book a call</a>
@@ -288,7 +454,7 @@ html.js .thread .msg[data-r].in{transform:none;}
       <details><summary>Do you train on our data?</summary><p>No. Your conversations and documents are used to answer your customers, not to train shared models. We share full data-handling details during onboarding.</p></details>
       <details><summary>What happens when the bot doesn't know the answer?</summary><p>It hands the conversation to someone on your team with the full thread and any relevant records attached.</p></details>
       <details><summary>Are you SOC 2 or ISO certified?</summary><p>Not yet. We're early-stage. If compliance is a blocker, tell us on the call and we'll walk you through our current security practices and roadmap.</p></details>
-      <details><summary>Can we try it before committing?</summary><p>Yes. We run a short pilot on your own data before any contract.</p></details>
+      <details><summary>Can we try it before committing?</summary><p>Yes. Start with a free 14-day pilot on your own WhatsApp number. It ends with a "missed leads" report showing what you would have lost without it.</p></details>
     </div>
   </div>
 </section>
@@ -296,24 +462,24 @@ html.js .thread .msg[data-r].in{transform:none;}
 <section id="contact" style="padding-top:20px;">
   <div class="wrap">
     <div class="cta">
-      <h2>See it running on your own tickets</h2>
-      <p>15 minutes, no slide deck. We connect a sandbox to a sample of your real queries and show you what it handles and what it doesn't.</p>
+      <h2>See it running on your own phone</h2>
+      <p>15 minutes, no slide deck. We run a live demo on your own phone using your FAQs and price list, and show you what it handles and what it doesn't.</p>
       <a class="btn" href="mailto:chattybong26@gmail.com">Book a 15-minute call</a>
     </div>
   </div>
 </section>
 </main>
 
-<footer><div class="wrap">© 2026 ChattyBong · Early access · <a href="mailto:chattybong26@gmail.com">chattybong26@gmail.com</a></div></footer>
+<footer><div class="wrap">© 2026 ChattyBomb · Early access · <a href="mailto:chattybong26@gmail.com">chattybong26@gmail.com</a></div></footer>
 
 <script>
 const S=[
- {c:[["u","Hi, where's my order #48213?"],["b","Shipped yesterday via BlueDart, tracking JD00219X, due Thursday. Want the tracking link?"]],
-  m:[["Check delivery on Thursday","Will message the customer if it's late","Scheduled"]]},
- {c:[["u","My contract is renewing soon. Can I get the details?"],["b","Your plan renews on the 18th at the current rate. I can send the renewal summary now, or connect you with your account manager."]],
-  m:[["Send renewal summary","Waiting on the customer's reply","Pending"],["Nudge on the 15th","If no answer, ask once more, then alert the account manager","Scheduled"]]},
- {c:[["u","I can't connect to the VPN, it keeps timing out."],["b","That usually means an expired client certificate. I've reset yours, so try reconnecting in about 2 minutes. If it still fails, I'll bring in IT with your device details."]],
-  m:[["Confirm VPN works in 10 minutes","If not, open an IT ticket with device details attached","Scheduled"]]}
+ {c:[["u","Is Dr. Rao free Saturday?"],["b","Yes! 10:30 AM is open. Shall I book it?"],["u","Yes. What's the fee?"],["b","Booked ✓ Fee is ₹500 per your price list. Reminder tomorrow."]],
+  m:[["Lead saved · callback logged","Saturday 10:30 AM slot booked","AI handled"],["Reminder before the appointment","Sent the day before, then a renewal nudge later","Scheduled"]]},
+ {c:[["u","I was charged twice for my last visit. Can I get a refund?"],["b","I'm sorry about that. Refunds need a person to check, so I've passed this to the clinic owner with your payment details and this chat attached."]],
+  m:[["Refund query for the owner","Full conversation attached, nobody has to repeat the issue","Needs human"],["Check back if unresolved","Reminder appears under follow-ups due today","Scheduled"]]},
+ {c:[["u","What are the fees for a general checkup?"],["b","A general checkup is ₹500 per your price list. Would you like me to find you a slot this week?"]],
+  m:[["Lead saved","Fee enquiry from the clinic's own price list","AI handled"],["Follow up if no reply","One reminder, then it shows up on the owner's dashboard","Scheduled"]]}
 ];
 const chat=document.getElementById('chat'), mem=document.getElementById('mem'), tabs=[...document.querySelectorAll('.tab')];
 function show(i){
@@ -325,6 +491,138 @@ function show(i){
 }
 tabs.forEach((t,i)=>t.addEventListener('click',()=>show(i)));
 show(0);
+
+
+/* ---- interactive: live demo ---- */
+(function(){
+  const tchat=document.getElementById('tchat'), feed=document.getElementById('feed'), form=document.getElementById('tform'), tin=document.getElementById('tin');
+  const st={leads:0,book:0,fu:0,human:0,pending:false,busy:false};
+  const ids={leads:'s-leads',book:'s-book',fu:'s-fu',human:'s-human'};
+  function bump(k){const el=document.getElementById(ids[k]); el.querySelector('b').textContent=st[k]; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');}
+  function add(cls,text){const d=document.createElement('div'); d.className='msg in '+cls; d.textContent=text; tchat.appendChild(d); tchat.scrollTop=tchat.scrollHeight; return d;}
+  function feedAdd(title,sub,badge,warn){
+    const e=feed.querySelector('.feed-empty'); if(e) e.remove();
+    const d=document.createElement('div'); d.className='mem-item';
+    d.innerHTML='<div><b></b><small></small></div><span class="badge'+(warn?' warn':'')+'"></span>';
+    d.querySelector('b').textContent=title; d.querySelector('small').textContent=sub; d.querySelector('.badge').textContent=badge;
+    feed.insertBefore(d,feed.firstChild);
+  }
+  function reset(){
+    st.leads=st.book=st.fu=st.human=0; st.pending=false; st.busy=false;
+    Object.keys(ids).forEach(k=>document.getElementById(ids[k]).querySelector('b').textContent='0');
+    tchat.innerHTML=''; feed.innerHTML='<p class="feed-empty">Nothing yet. Send a message on the left.</p>';
+    add('b',"Hi! I'm the assistant for Dr. Rao's Clinic. Ask me about slots, fees or timings.");
+  }
+  function think(text){
+    const t=text.toLowerCase(); const out=[];
+    const yes=/\b(yes|yeah|yep|ok|okay|sure|confirm|please)\b|book it/.test(t);
+    const fee=/\bfees?\b|price|cost|how much|charges?\b/.test(t) && !/charged/.test(t);
+    if(/emergency|urgent|bleed|severe|chest pain/.test(t)){
+      st.human++; bump('human'); feedAdd('Urgent message','Owner alerted right away','Needs human',true);
+      return "That sounds urgent. Please call the clinic directly or your local emergency number now. I've alerted the owner.";
+    }
+    if(/refund|charged|complain|rude|angry|unhappy|cancel my/.test(t)){
+      st.human++; bump('human'); feedAdd('Refund or complaint','Full chat attached for the owner','Needs human',true);
+      st.fu++; bump('fu');
+      return "I'm sorry about that. Refunds and complaints need a person, so I've passed this to the clinic owner with this chat attached.";
+    }
+    if(st.pending && yes){
+      st.pending=false; st.book++; bump('book'); st.fu++; bump('fu');
+      feedAdd('Saturday 10:30 AM booked','Reminder queued for the day before','AI handled');
+      out.push("Booked ✓ Saturday 10:30 AM. I'll send a reminder the day before.");
+      if(fee) out.push("The fee is ₹500 per your price list.");
+      return out.join(' ');
+    }
+    if(/slot|free|available|saturday|sunday|monday|tomorrow|appointment|book/.test(t)){
+      st.pending=true; feedAdd('Slot enquiry','Offered Saturday 10:30 AM','AI handled');
+      return "Yes! Saturday 10:30 AM is open. Shall I book it?";
+    }
+    if(fee){
+      st.pending=true; feedAdd('Fee enquiry','Answered from the price list','AI handled');
+      return "A general consultation is ₹500 per our price list. Want me to check a slot for you?";
+    }
+    if(/hour|timing|open|close|when/.test(t)){
+      feedAdd('Timings enquiry','Answered from the clinic FAQ','AI handled');
+      return "We're open Monday to Saturday, 10 AM to 7 PM.";
+    }
+    st.human++; bump('human'); feedAdd('Question the bot is unsure about','Passed on with the chat attached','Needs human',true);
+    return "I'm not sure about that one, so I've passed it to the clinic owner with this chat attached. They'll reply soon.";
+  }
+  function send(text){
+    text=text.trim(); if(!text||st.busy) return;
+    st.busy=true; add('u',text);
+    if(st.leads===0){st.leads=1; bump('leads'); feedAdd('Lead saved','Callback logged with the customer\'s number','AI handled');}
+    const typing=add('b',''); typing.innerHTML='<span class="dots"><i></i><i></i><i></i></span>';
+    setTimeout(()=>{typing.remove(); add('b',think(text)); st.busy=false;},reduce?0:750);
+  }
+  form.addEventListener('submit',e=>{e.preventDefault(); const v=tin.value; tin.value=''; send(v);});
+  document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('.chip'); if(b) send(b.textContent);});
+  document.getElementById('treset').addEventListener('click',reset);
+  reset();
+})();
+
+/* ---- interactive: journey ---- */
+(function(){
+  const J=[
+   ["Discover","Day 0","A short demo video, or a local business owner recommends us.","Nothing yet. They keep messaging as usual."],
+   ["Onboard","Under 1 hour","Connects the WhatsApp number and uploads FAQs or PDFs.","Same number as always. Nothing new to learn."],
+   ["Use","11:30 PM, any night","Asleep. The chat is tagged \"AI handled\" by morning.","An instant answer from the clinic's own FAQ, and the slot booked."],
+   ["Follow-up","Day before, then renewal","Callback logged in \"Follow-ups due today\". Renewal nudge queued.","A reminder before the appointment, and a renewal nudge later."],
+   ["Value","Every month","A dashboard of leads saved and bookings recovered.","A business that always replies, so they come back."]
+  ];
+  const bar=document.getElementById('sbar'), when=document.getElementById('swhen'), panel=document.getElementById('spanel');
+  const so=document.getElementById('s-o'), sc=document.getElementById('s-c'), prev=document.getElementById('sprev'), next=document.getElementById('snext');
+  let cur=0;
+  J.forEach((j,i)=>{const b=document.createElement('button'); b.type='button'; b.className='sb'; b.setAttribute('role','tab');
+    b.innerHTML='<span class="n">'+(i+1)+'</span><span></span>'; b.lastChild.textContent=j[0]; b.addEventListener('click',()=>go(i)); bar.appendChild(b);});
+  function go(i){
+    cur=i; const j=J[i];
+    [...bar.children].forEach((b,k)=>{b.setAttribute('aria-selected',k===i); b.classList.toggle('done',k<i);});
+    when.textContent='Step '+(i+1)+': '+j[0]+' · '+j[1]; so.textContent=j[2]; sc.textContent=j[3];
+    panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap');
+    prev.disabled=i===0; prev.style.opacity=i===0?.5:1;
+    next.textContent=i===J.length-1?'Start over':'Next step';
+  }
+  prev.addEventListener('click',()=>go(Math.max(0,cur-1)));
+  next.addEventListener('click',()=>go(cur===J.length-1?0:cur+1));
+  go(0);
+})();
+
+/* ---- interactive: without / with ---- */
+(function(){
+  const T=[
+   [["11:30 PM","Customer asks about a Saturday slot."],["9:00 AM","Owner opens the chat and reads the message."],["Lost","\"Sorry! Booked somewhere else.\""]],
+   [["11:30 PM","The same message arrives."],["11:30 PM","Instant answer from the fee list, slot offered."],["10:30 AM","Booked, reminder set."]]
+  ];
+  const tl=document.getElementById('tl'), btns=[...document.querySelectorAll('.tog button')];
+  function set(i){
+    btns.forEach((b,k)=>b.setAttribute('aria-selected',k===i)); tl.classList.toggle('win',i===1); tl.innerHTML='';
+    T[i].forEach((r,k)=>{const d=document.createElement('div'); d.style.animationDelay=(k*.12)+'s'; d.innerHTML='<b></b><span></span>'; d.firstChild.textContent=r[0]; d.lastChild.textContent=r[1]; tl.appendChild(d);});
+  }
+  btns.forEach((b,i)=>b.addEventListener('click',()=>set(i)));
+  set(0);
+})();
+
+/* ---- interactive: calculator ---- */
+(function(){
+  const g=id=>document.getElementById(id), inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+  const plans=[...document.querySelectorAll('.plan')];
+  function calc(){
+    const w=+g('c1').value, late=+g('c2').value/100, bk=+g('c3').value/100, val=+g('c4').value;
+    g('o1').textContent=w; g('o2').textContent=Math.round(late*100)+'%'; g('o3').textContent=Math.round(bk*100)+'%'; g('o4').textContent=inr(val);
+    const conv=w*4.33, miss=conv*late*bk, risk=miss*val, back=risk/2;
+    g('r-risk').textContent=inr(risk); g('r-miss').textContent=Math.round(miss); g('r-back').textContent=inr(back); g('r-conv').textContent=Math.round(conv).toLocaleString('en-IN');
+    let idx=0,name='Starter',price=999; if(conv>2000){idx=2;name='Scale';price=0;} else if(conv>500){idx=1;name='Growth';price=2999;}
+    plans.forEach((p,k)=>p.classList.toggle('suggest',k===idx));
+    let msg;
+    if(idx===2) msg='At this volume you would be on Scale, which is a custom quote. Book a call and we will size it to your branches.';
+    else if(back>=price) msg='Suggested plan: '+name+' at '+inr(price)+'/month. Winning back half of the missed bookings would be about '+(back/price).toFixed(1)+' times the plan price.';
+    else msg='Suggested plan: '+name+' at '+inr(price)+'/month. At these numbers the recovered bookings would not cover the price, so test it in the free pilot before paying.';
+    g('r-sug').textContent=msg;
+  }
+  ['c1','c2','c3','c4'].forEach(id=>g(id).addEventListener('input',calc));
+  calc();
+})();
 
 /* ---- scroll effects ---- */
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -341,7 +639,7 @@ addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onScrol
 onScroll();
 
 // reveal on scroll, staggered within each group
-const targets=document.querySelectorAll('.head, .job, .case > div, .thread .msg, .chan, .plan, details, .cta, .band h2');
+const targets=document.querySelectorAll('.head, .job, .case > div, .thread .msg, .chan, .plan, details, .cta, .band h2, .try > *, .sbar, .spanel, .snav, .calc > *');
 const seen=new Map();
 targets.forEach(el=>{
   const p=el.parentElement, k=seen.get(p)||0; seen.set(p,k+1);
