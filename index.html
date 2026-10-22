@@ -65,7 +65,16 @@ nav{display:flex; align-items:center; justify-content:space-between; height:64px
 .demo{transform:translateY(calc(var(--sy,0) * -.035px));}
 .hero-grid{display:grid; grid-template-columns:1.05fr 1fr; gap:48px; align-items:center;}
 @media(max-width:940px){.hero-grid{grid-template-columns:1fr;}}
-.hero h1 span{background:linear-gradient(transparent 62%, var(--mark) 62% 92%, transparent 92%) no-repeat 0 0 / 0% 100%; padding:0 .08em; animation:draw .9s .5s cubic-bezier(.22,1,.36,1) forwards;}
+/* Readable headline highlight: thin marker underline, text stays full contrast */
+.hero h1 .hl{
+  background:linear-gradient(transparent 80%, var(--mark) 80% 94%, transparent 94%) no-repeat 0 0 / 0% 100%;
+  -webkit-box-decoration-break:clone; box-decoration-break:clone;
+  padding:0 .08em; cursor:pointer;
+  animation:draw .9s .5s cubic-bezier(.22,1,.36,1) forwards;
+  transition:opacity .25s, color .2s;
+}
+.hero h1 .hl:hover{color:var(--brand);}
+.hero h1 .hl.out{opacity:0;}
 @keyframes draw{to{background-size:100% 100%;}}
 .hero .lead{margin-top:22px; font-size:1.15rem; color:var(--dim);}
 .ctas{display:flex; flex-wrap:wrap; gap:12px; margin-top:32px;}
@@ -224,7 +233,7 @@ html.js [data-r]{opacity:0; transform:translateY(32px); transition:opacity .7s c
 html.js [data-r].in{opacity:1; transform:none;}
 html.js .thread .msg[data-r]{transform:translateY(14px) scale(.97);}
 html.js .thread .msg[data-r].in{transform:none;}
-@media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important; scroll-behavior:auto!important;} html.js [data-r]{opacity:1; transform:none;} .hero h1 span{background-size:100% 100%;} .hero::before,.hero::after,.demo{transform:none;}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important; scroll-behavior:auto!important;} html.js [data-r]{opacity:1; transform:none;} .hero h1 .hl{background-size:100% 100%;} .hero::before,.hero::after,.demo{transform:none;}}
 </style>
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -244,7 +253,7 @@ html.js .thread .msg[data-r].in{transform:none;}
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <h1>One inbox, one brain, <span>zero missed follow-ups</span>.</h1>
+      <h1>One inbox, one brain, <span class="hl" id="rot" role="button" tabindex="0" aria-label="Change phrase">zero missed follow-ups</span>.</h1>
       <p class="lead">ChattyBomb answers customers on the WhatsApp number they already know, using your own PDFs, FAQs and price lists, then keeps track of bookings, callbacks and renewals so nothing slips because nobody set a reminder.</p>
       <div class="ctas">
         <a class="btn btn-main" href="#contact">Book a 15-minute call</a>
@@ -654,6 +663,22 @@ const spy=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));}
 }),{rootMargin:'-45% 0px -50% 0px'});
 links.forEach(a=>{const s=document.querySelector(a.getAttribute('href')); if(s) spy.observe(s);});
+
+/* ---- hero headline: rotating phrase ---- */
+(function(){
+  const el=document.getElementById('rot');
+  const words=["zero missed follow-ups","zero missed bookings","zero missed leads","zero late-night silence"];
+  let i=0, paused=false;
+  function swap(){
+    el.classList.add('out');
+    setTimeout(()=>{ i=(i+1)%words.length; el.textContent=words[i]; el.classList.remove('out'); }, reduce?0:250);
+  }
+  el.addEventListener('click',swap);
+  el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); swap(); } });
+  ['mouseenter','focus'].forEach(ev=>el.addEventListener(ev,()=>paused=true));
+  ['mouseleave','blur'].forEach(ev=>el.addEventListener(ev,()=>paused=false));
+  if(!reduce) setInterval(()=>{ if(!paused) swap(); }, 3200);
+})();
 </script>
 </body>
 </html>
